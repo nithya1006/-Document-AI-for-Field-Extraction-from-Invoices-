@@ -1,0 +1,4 @@
+train: data/yolo_dataset\train
+val: data/yolo_dataset\val
+nc: 2
+names: ['signature', 'stamp']
