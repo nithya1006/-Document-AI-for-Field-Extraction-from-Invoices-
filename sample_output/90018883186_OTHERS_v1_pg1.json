@@ -1,0 +1,23 @@
+{
+  "doc_id": "90018883186_OTHERS_v1_pg1",
+  "fields": {
+    "dealer_name": null,
+    "model_name": null,
+    "horse_power": null,
+    "asset_cost": null,
+    "signature": {
+      "present": false,
+      "confidence": 0.0,
+      "bbox": null
+    },
+    "stamp": {
+      "present": false,
+      "confidence": 0.0,
+      "bbox": null
+    }
+  },
+  "confidence": 0.0,
+  "processing_time_sec": 109.75,
+  "cost_estimate_usd": 0.001,
+  "status": "success"
+}

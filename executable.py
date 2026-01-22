@@ -11,8 +11,13 @@ Extracts 6 key fields from invoice images (PNG/JPG) or PDFs:
 6. Dealer Stamp (with bounding box)
 
 Usage:
+    # Using EasyOCR (default)
     python executable.py --input invoice.png
     python executable.py --input_dir data/raw --output_dir sample_output
+
+    # Using Ollama vision model (llama3.2-vision)
+    python executable.py --input invoice.png --ollama
+    python executable.py --input_dir data/raw --output_dir sample_output --ollama
 """
 
 import os
@@ -32,6 +37,7 @@ from utils.pdf_processor import PDFProcessor
 from utils.ocr_engine import OCREngine
 from utils.field_extractor import FieldExtractor
 from utils.signature_detector import SignatureStampDetector
+from utils.ollama_vision import OllamaVisionExtractor
 
 # Configure logging
 logging.basicConfig(
@@ -47,13 +53,22 @@ logger = logging.getLogger(__name__)
 
 class InvoiceExtractor:
     """Main pipeline for invoice field extraction"""
-    
-    def __init__(self, config_path: str = "configs/config.yaml"):
-        """Initialize the extraction pipeline"""
-        
+
+    def __init__(self, config_path: str = "configs/config.yaml", use_ollama: bool = False, ollama_model: str = "llama3.2-vision"):
+        """Initialize the extraction pipeline
+
+        Args:
+            config_path: Path to configuration file
+            use_ollama: If True, use Ollama vision model instead of EasyOCR
+            ollama_model: Ollama vision model to use (default: llava)
+        """
+
         # Create logs directory
         os.makedirs("logs", exist_ok=True)
-        
+
+        self.use_ollama = use_ollama
+        self.ollama_model = ollama_model
+
         # Load configuration
         try:
             with open(config_path, 'r') as f:
@@ -61,30 +76,36 @@ class InvoiceExtractor:
         except FileNotFoundError:
             logger.warning(f"Config file {config_path} not found, using defaults")
             self.config = self._default_config()
-        
+
         logger.info("="*60)
         logger.info("INVOICE FIELD EXTRACTION SYSTEM")
         logger.info("="*60)
         logger.info("Initializing extraction pipeline...")
-        
+
         # Initialize components
         self.pdf_processor = PDFProcessor(
             dpi=self.config['processing']['image_dpi'],
             max_size=self.config['processing']['max_image_size']
         )
-        
-        self.ocr_engine = OCREngine(
-            languages=self.config['ocr']['languages'],
-            use_gpu=self.config['ocr']['use_gpu']
-        )
-        
-        self.field_extractor = FieldExtractor(config=self.config.get('fields'))
-        
-        # Load master data if available
-        self._load_master_data()
-        
+
+        if self.use_ollama:
+            logger.info(f"Using Ollama vision model: {self.ollama_model}")
+            self.ollama_extractor = OllamaVisionExtractor(model=self.ollama_model)
+            self.ocr_engine = None
+            self.field_extractor = None
+        else:
+            logger.info("Using EasyOCR engine")
+            self.ollama_extractor = None
+            self.ocr_engine = OCREngine(
+                languages=self.config['ocr']['languages'],
+                use_gpu=self.config['ocr']['use_gpu']
+            )
+            self.field_extractor = FieldExtractor(config=self.config.get('fields'))
+            # Load master data if available
+            self._load_master_data()
+
         self.signature_detector = SignatureStampDetector()
-        
+
         logger.info("✓ Pipeline initialized successfully")
         logger.info("="*60)
     
@@ -197,44 +218,75 @@ class InvoiceExtractor:
                 image,
                 operations=self.config['processing']['preprocessing']
             )
-            
-            # Step 3: OCR extraction
-            logger.info("Extracting text with OCR...")
-            ocr_results = self.ocr_engine.extract_text(preprocessed)
-            full_text = ' '.join([r.text for r in ocr_results])
-            
-            logger.info(f"✓ Extracted {len(ocr_results)} text elements")
-            
-            # Step 4: Extract structured fields
-            logger.info("Extracting structured fields...")
-            fields, text_confidence = self.field_extractor.extract_all_fields(
-                ocr_results,
-                full_text
-            )
-            
-            logger.info(f"✓ Dealer: {fields['dealer_name']}")
-            logger.info(f"✓ Model: {fields['model_name']}")
-            logger.info(f"✓ HP: {fields['horse_power']}")
-            logger.info(f"✓ Cost: {fields['asset_cost']}")
-            
-            # Step 5: Detect signature and stamp
-            logger.info("Detecting signature and stamp...")
-            signature_result = self.signature_detector.detect_signature(
-                image,
-                confidence_threshold=self.config['detection']['signature']['confidence_threshold']
-            )
-            
-            stamp_result = self.signature_detector.detect_stamp(
-                image,
-                confidence_threshold=self.config['detection']['stamp']['confidence_threshold']
-            )
-            
+
+            if self.use_ollama:
+                # Use Ollama vision model for extraction
+                logger.info(f"Extracting with Ollama vision ({self.ollama_model})...")
+                extraction_result = self.ollama_extractor.extract_all(preprocessed)
+
+                fields = {
+                    'dealer_name': extraction_result.fields.get('dealer_name'),
+                    'model_name': extraction_result.fields.get('model_name'),
+                    'horse_power': extraction_result.fields.get('horse_power'),
+                    'asset_cost': extraction_result.fields.get('asset_cost'),
+                }
+                text_confidence = extraction_result.confidence
+
+                logger.info(f"✓ Dealer: {fields['dealer_name']}")
+                logger.info(f"✓ Model: {fields['model_name']}")
+                logger.info(f"✓ HP: {fields['horse_power']}")
+                logger.info(f"✓ Cost: {fields['asset_cost']}")
+
+                # Use Ollama's signature/stamp detection
+                signature_result = {
+                    'present': extraction_result.fields.get('has_signature', False),
+                    'confidence': 0.8 if extraction_result.fields.get('has_signature') else 0.0,
+                    'bbox': None
+                }
+                stamp_result = {
+                    'present': extraction_result.fields.get('has_stamp', False),
+                    'confidence': 0.8 if extraction_result.fields.get('has_stamp') else 0.0,
+                    'bbox': None
+                }
+
+            else:
+                # Use EasyOCR for extraction
+                logger.info("Extracting text with OCR...")
+                ocr_results = self.ocr_engine.extract_text(preprocessed)
+                full_text = ' '.join([r.text for r in ocr_results])
+
+                logger.info(f"✓ Extracted {len(ocr_results)} text elements")
+
+                # Step 4: Extract structured fields
+                logger.info("Extracting structured fields...")
+                fields, text_confidence = self.field_extractor.extract_all_fields(
+                    ocr_results,
+                    full_text
+                )
+
+                logger.info(f"✓ Dealer: {fields['dealer_name']}")
+                logger.info(f"✓ Model: {fields['model_name']}")
+                logger.info(f"✓ HP: {fields['horse_power']}")
+                logger.info(f"✓ Cost: {fields['asset_cost']}")
+
+                # Detect signature and stamp using traditional method
+                logger.info("Detecting signature and stamp...")
+                signature_result = self.signature_detector.detect_signature(
+                    image,
+                    confidence_threshold=self.config['detection']['signature']['confidence_threshold']
+                )
+
+                stamp_result = self.signature_detector.detect_stamp(
+                    image,
+                    confidence_threshold=self.config['detection']['stamp']['confidence_threshold']
+                )
+
             logger.info(f"✓ Signature: {'Yes' if signature_result['present'] else 'No'}")
             logger.info(f"✓ Stamp: {'Yes' if stamp_result['present'] else 'No'}")
-            
+
             fields['signature'] = signature_result
             fields['stamp'] = stamp_result
-            
+
             # Calculate overall confidence
             sig_conf = signature_result.get('confidence', 0)
             stamp_conf = stamp_result.get('confidence', 0)
@@ -381,6 +433,10 @@ Examples:
                        help='Output directory (default: sample_output)')
     parser.add_argument('--config', type=str, default='configs/config.yaml',
                        help='Configuration file (default: configs/config.yaml)')
+    parser.add_argument('--ollama', action='store_true',
+                       help='Use Ollama vision model instead of EasyOCR')
+    parser.add_argument('--model', type=str, default='llama3.2-vision',
+                       help='Ollama vision model to use (default: llama3.2-vision)')
     
     args = parser.parse_args()
     
@@ -390,7 +446,11 @@ Examples:
     
     # Initialize extractor
     try:
-        extractor = InvoiceExtractor(config_path=args.config)
+        extractor = InvoiceExtractor(
+            config_path=args.config,
+            use_ollama=args.ollama,
+            ollama_model=args.model
+        )
     except Exception as e:
         logger.error(f"Failed to initialize: {e}")
         return

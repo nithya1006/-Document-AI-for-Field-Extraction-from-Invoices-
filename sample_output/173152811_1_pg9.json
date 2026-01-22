@@ -1,0 +1,23 @@
+{
+  "doc_id": "173152811_1_pg9",
+  "fields": {
+    "dealer_name": "H.S. TRADING COMPANY",
+    "model_name": null,
+    "horse_power": null,
+    "asset_cost": 1000.0,
+    "signature": {
+      "present": true,
+      "confidence": 0.8,
+      "bbox": null
+    },
+    "stamp": {
+      "present": false,
+      "confidence": 0.0,
+      "bbox": null
+    }
+  },
+  "confidence": 0.433,
+  "processing_time_sec": 26.35,
+  "cost_estimate_usd": 0.001,
+  "status": "success"
+}

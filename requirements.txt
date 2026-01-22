@@ -1,46 +1,46 @@
 # =============================================================================
 # INVOICE FIELD EXTRACTION SYSTEM - REQUIREMENTS
-# Tested with Python 3.8+
+# Updated for Python 3.13 compatibility
 # Last Updated: January 2025
 # =============================================================================
 
 # Core Dependencies
-numpy==1.24.3
-pandas==2.0.3
-pillow==10.0.0
+numpy>=1.26.0
+pandas>=2.1.0
+pillow>=10.0.0
 
 # Image Processing
-opencv-python==4.8.1.78
+opencv-python>=4.8.0
 
 # PDF Processing (for PDF support)
-PyMuPDF==1.24.0
-pdf2image==1.16.3
+PyMuPDF>=1.24.0
+pdf2image>=1.16.3
 
 # OCR Engine (Primary - Most Stable)
-easyocr==1.7.2
-torch==2.0.1
-torchvision==0.15.2
+easyocr>=1.7.0
+torch>=2.0.0
+torchvision>=0.15.0
 
 # Text Processing & Matching
-rapidfuzz==3.5.2
-regex==2023.10.3
+rapidfuzz>=3.5.0
+regex>=2023.10.3
 
 # Computer Vision (for signature/stamp detection)
-ultralytics==8.0.228  # YOLOv8 (optional)
+ultralytics>=8.0.0  # YOLOv8 (optional)
 
 # Configuration & Utilities
-pyyaml==6.0.1
-tqdm==4.66.1
-jsonschema==4.19.1
+pyyaml>=6.0.1
+tqdm>=4.66.0
+jsonschema>=4.19.0
 
 # Visualization & Analysis
-matplotlib==3.8.2
-seaborn==0.13.0
-plotly==5.18.0
+matplotlib>=3.8.0
+seaborn>=0.13.0
+plotly>=5.18.0
 
 # Web App (Optional - for demo)
-streamlit==1.29.0
-gradio==4.8.0
+streamlit>=1.29.0
+gradio>=4.8.0
 
 # PDF Creation (for testing only)
-reportlab==4.0.7
+reportlab>=4.0.0

@@ -1,0 +1,23 @@
+{
+  "doc_id": "172823208_1_pg45",
+  "fields": {
+    "dealer_name": "KRISHNA AGRO",
+    "model_name": null,
+    "horse_power": null,
+    "asset_cost": 10000.0,
+    "signature": {
+      "present": true,
+      "confidence": 0.8,
+      "bbox": null
+    },
+    "stamp": {
+      "present": false,
+      "confidence": 0.0,
+      "bbox": null
+    }
+  },
+  "confidence": 0.433,
+  "processing_time_sec": 81.6,
+  "cost_estimate_usd": 0.001,
+  "status": "success"
+}

@@ -1,0 +1,23 @@
+{
+  "doc_id": "90019330794_OTHERS_v1_pg1",
+  "fields": {
+    "dealer_name": "Cadotii Tractor & Sales",
+    "model_name": null,
+    "horse_power": null,
+    "asset_cost": 300.0,
+    "signature": {
+      "present": true,
+      "confidence": 0.8,
+      "bbox": null
+    },
+    "stamp": {
+      "present": false,
+      "confidence": 0.0,
+      "bbox": null
+    }
+  },
+  "confidence": 0.433,
+  "processing_time_sec": 8.8,
+  "cost_estimate_usd": 0.001,
+  "status": "success"
+}

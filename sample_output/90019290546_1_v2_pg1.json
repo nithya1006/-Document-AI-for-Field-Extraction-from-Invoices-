@@ -1,0 +1,23 @@
+{
+  "doc_id": "90019290546_1_v2_pg1",
+  "fields": {
+    "dealer_name": "M/s. JAI DURGA TRACTORS",
+    "model_name": "SONALIKA Tractor Model",
+    "horse_power": null,
+    "asset_cost": 235.0,
+    "signature": {
+      "present": true,
+      "confidence": 0.8,
+      "bbox": null
+    },
+    "stamp": {
+      "present": true,
+      "confidence": 0.8,
+      "bbox": null
+    }
+  },
+  "confidence": 0.811,
+  "processing_time_sec": 121.26,
+  "cost_estimate_usd": 0.001,
+  "status": "success"
+}
