@@ -1,0 +1,76 @@
+# Configuration parameters
+# Configuration file for Invoice Extraction System
+
+# Paths
+paths:
+  raw_data: "data/raw"
+  processed_data: "data/processed"
+  annotations: "data/annotations"
+  output: "sample_output"
+  models: "models/weights"
+  logs: "logs"
+
+# OCR Configuration
+ocr:
+  engine: "paddleocr"  # Options: paddleocr, easyocr, tesseract
+  languages: ["en", "hi"]  # English, Hindi
+  use_gpu: false
+  confidence_threshold: 0.5
+
+# Field Extraction
+fields:
+  dealer_name:
+    type: "text"
+    matching: "fuzzy"
+    threshold: 0.9
+    keywords: ["dealer", "firm", "seller", "vendor", "proprietor"]
+  
+  model_name:
+    type: "text"
+    matching: "exact"
+    keywords: ["model", "variant", "type"]
+  
+  horse_power:
+    type: "numeric"
+    matching: "exact"
+    keywords: ["hp", "horse power", "horsepower", "h.p"]
+    tolerance: 0.05
+  
+  asset_cost:
+    type: "numeric"
+    matching: "exact"
+    keywords: ["cost", "price", "amount", "total", "value", "rs", "₹"]
+    tolerance: 0.05
+
+# Signature and Stamp Detection
+detection:
+  signature:
+    model: "yolov8"  # or "custom_cnn"
+    confidence_threshold: 0.5
+    iou_threshold: 0.5
+  
+  stamp:
+    model: "yolov8"
+    confidence_threshold: 0.5
+    iou_threshold: 0.5
+
+# Performance Requirements
+performance:
+  target_accuracy: 0.95
+  max_latency_seconds: 30
+  max_cost_usd: 0.01
+
+# Processing
+processing:
+  image_dpi: 300
+  max_image_size: 2048
+  preprocessing:
+    - "grayscale"
+    - "denoise"
+    - "deskew"
+
+# Validation
+validation:
+  enable_cross_check: true
+  min_confidence: 0.7
+  fuzzy_match_threshold: 0.9

@@ -1,0 +1,23 @@
+{
+  "doc_id": "172571502_1_pg21",
+  "fields": {
+    "dealer_name": "MASSEY FERGUSDN",
+    "model_name": "Unknown",
+    "horse_power": 92.0,
+    "asset_cost": 9928012186.0,
+    "signature": {
+      "present": false,
+      "bbox": null,
+      "confidence": 0.0
+    },
+    "stamp": {
+      "present": false,
+      "bbox": null,
+      "confidence": 0.0
+    }
+  },
+  "confidence": 0.183,
+  "processing_time_sec": 57.09,
+  "cost_estimate_usd": 0.001,
+  "status": "success"
+}

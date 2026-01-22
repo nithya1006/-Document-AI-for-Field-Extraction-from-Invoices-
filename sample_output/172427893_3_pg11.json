@@ -1,0 +1,28 @@
+{
+  "doc_id": "172427893_3_pg11",
+  "fields": {
+    "dealer_name": "The Odisha Agro Industries Corporation Ltd.",
+    "model_name": "Unknown",
+    "horse_power": 41.0,
+    "asset_cost": 891110103.0,
+    "signature": {
+      "present": true,
+      "bbox": [
+        876,
+        1438,
+        1037,
+        1497
+      ],
+      "confidence": 0.7
+    },
+    "stamp": {
+      "present": false,
+      "bbox": null,
+      "confidence": 0.0
+    }
+  },
+  "confidence": 0.417,
+  "processing_time_sec": 29.87,
+  "cost_estimate_usd": 0.001,
+  "status": "success"
+}

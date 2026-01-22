@@ -1,0 +1,28 @@
+{
+  "doc_id": "172448470_3_pg15",
+  "fields": {
+    "dealer_name": "Phone : (06646)234865",
+    "model_name": "Unknown",
+    "horse_power": 0.0,
+    "asset_cost": 234865.0,
+    "signature": {
+      "present": true,
+      "bbox": [
+        1007,
+        1247,
+        1176,
+        1282
+      ],
+      "confidence": 0.9
+    },
+    "stamp": {
+      "present": false,
+      "bbox": null,
+      "confidence": 0.0
+    }
+  },
+  "confidence": 0.425,
+  "processing_time_sec": 36.66,
+  "cost_estimate_usd": 0.001,
+  "status": "success"
+}

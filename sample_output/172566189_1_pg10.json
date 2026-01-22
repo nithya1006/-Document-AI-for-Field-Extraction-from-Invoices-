@@ -1,0 +1,28 @@
+{
+  "doc_id": "172566189_1_pg10",
+  "fields": {
+    "dealer_name": "GSTIN 33BIFPP&705D1ZI SONALIKA LEADING AGRI EVOLUTIOr SRI AMUTHAM TRACTORS Authorized for Sonalika Tractor ( Thoothukudi District) Sales Services & Spares Parts No. २२३२, Madurai Main Road Vilvamarathupatti. Ayanpommiapuram Post, Vilathikulam Tk. Thoothukudi District - 628 90७7 Emaill sriamuthamtractors@gmail com, Cell: 8807707777 No. QUOTATION Date 93.|.5.2 1९६ Name & Address .[as Model ;SOKALIKh TIAER 5 hwD Gr५:| IQ००OCO 55 Ip Engine No. Chassis No. LaNcLuDED Gsz] CGST SGST ...AELME ......LAIK IGST .RDEC९. Only TOTAL Ie0०0०0 Moic (i) १००% Payment shoult be recevied after १५ days vehicle will be supplied lii ) Wle reserve Ihe right recover the purchaser any excise duty sale tax or Authorised Signature any price revision that may become chargedble ultimately in Ihe transaction. U - PARTYSIGNATURE .....ज:. TORS Fueinw५ 0\"८4 Oonwe Crnwy JuS",
+    "model_name": "Sonalika LEADING AGRI EVOLUTIOr SRI AMUTHAM TRACTORS Author",
+    "horse_power": 0.0,
+    "asset_cost": 8807707777.0,
+    "signature": {
+      "present": false,
+      "bbox": null,
+      "confidence": 0.0
+    },
+    "stamp": {
+      "present": true,
+      "bbox": [
+        937,
+        1369,
+        1035,
+        1496
+      ],
+      "confidence": 0.7
+    }
+  },
+  "confidence": 0.429,
+  "processing_time_sec": 45.05,
+  "cost_estimate_usd": 0.001,
+  "status": "success"
+}

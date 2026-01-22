@@ -1,0 +1,10 @@
+data/
+*.pyc
+__pycache__/
+logs/
+*.log
+
+# Virtual environments
+venv/
+.env/
+.env*/

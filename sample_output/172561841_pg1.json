@@ -1,0 +1,33 @@
+{
+  "doc_id": "172561841_pg1",
+  "fields": {
+    "dealer_name": "THE ODISHA AGRO INDUSTRIES CORPORATION LTD",
+    "model_name": "Model -Dl-745 ID",
+    "horse_power": 0.0,
+    "asset_cost": 33301847576.0,
+    "signature": {
+      "present": true,
+      "bbox": [
+        895,
+        1419,
+        1003,
+        1455
+      ],
+      "confidence": 0.8999999999999999
+    },
+    "stamp": {
+      "present": true,
+      "bbox": [
+        116,
+        78,
+        226,
+        174
+      ],
+      "confidence": 0.8999999999999999
+    }
+  },
+  "confidence": 0.796,
+  "processing_time_sec": 86.05,
+  "cost_estimate_usd": 0.001,
+  "status": "success"
+}
