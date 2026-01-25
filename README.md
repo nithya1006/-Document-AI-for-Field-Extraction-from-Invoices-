@@ -503,6 +503,3 @@ For questions or issues:
 This project is submitted for IDFC Hackathon - Convolve 4.0
 
 ---
-
-**Built with ❤️ for Document AI**  
-*Extracting Intelligence from Documents*
